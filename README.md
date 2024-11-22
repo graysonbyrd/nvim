@@ -4,6 +4,6 @@ Clone this repo into your ~/.config directory.
 
 Ensure Neovim is installed on your system.
 
-Type ```bash nvim``` into a terminal.
+Type ```nvim``` into a terminal.
 
 Watch the magic happen as all plugins are automatically downloaded and configured.
