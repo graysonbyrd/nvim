@@ -1,6 +1,6 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  event = { "BufReadPre", "BufNewFile" },
+  event = "VeryLazy",
   build = ":TSUpdate",
   dependencies = {
     "windwp/nvim-ts-autotag",
@@ -10,16 +10,28 @@ return {
     local treesitter = require("nvim-treesitter.configs")
 
     -- configure treesitter
-    treesitter.setup({ -- enable syntax highlighting
+    treesitter.setup({
+      -- enable syntax highlighting
       highlight = {
         enable = true,
       },
+
       -- enable indentation
-      indent = { enable = true },
+      indent = {
+        enable = true,
+      },
+
       -- enable autotagging (w/ nvim-ts-autotag plugin)
       autotag = {
         enable = true,
       },
+
+      -- 🔥 FIX: properly configure ts-context-commentstring
+      context_commentstring = {
+        enable = true,
+        enable_autocmd = false, -- prevents CursorHold error
+      },
+
       -- ensure these language parsers are installed
       ensure_installed = {
         "json",
@@ -42,8 +54,10 @@ return {
         "query",
         "vimdoc",
         "c",
-        "python"
+        "cpp", -- ✅ important (you were missing this earlier)
+        "python",
       },
+
       incremental_selection = {
         enable = true,
         keymaps = {
