@@ -1,6 +1,7 @@
 require("plugins")
 require("configs")
 require("keymaps")
+require("lsp")
 require("telescope-config")
 require("formatting")
 require("nvim-tree-config")
