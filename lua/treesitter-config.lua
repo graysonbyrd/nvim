@@ -6,52 +6,48 @@ vim.pack.add({
       vim.cmd("TSUpdate")
     end,
   },
-  {
-    src = "https://github.com/windwp/nvim-ts-autotag",
-    name = "nvim-ts-autotag",
-  },
-  {
-    src = "https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
-    name = "nvim-ts-context-commentstring",
-  },
+  { src = "https://github.com/windwp/nvim-ts-autotag", name = "nvim-ts-autotag" },
+  { src = "https://github.com/JoosepAlviste/nvim-ts-context-commentstring", name = "nvim-ts-context-commentstring" },
 })
 
-require("nvim-treesitter.config").setup({
-  highlight = { enable = true },
-  indent = { enable = true },
-  autotag = { enable = true },
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
-  },
-  ensure_installed = {
-    "json",
-    "javascript",
-    "typescript",
-    "tsx",
-    "yaml",
-    "html",
-    "css",
-    "markdown",
-    "markdown_inline",
-    "bash",
-    "lua",
-    "vim",
-    "vimdoc",
-    "dockerfile",
-    "gitignore",
-    "query",
-    "c",
-    "cpp",
-    "python",
-  },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "<C-space>",
-      node_incremental = "<C-space>",
-      scope_incremental = false,
-      node_decremental = "<bs>",
-    },
-  },
+-- Install parsers (only missing ones)
+local installed = require("nvim-treesitter.config").get_installed()
+local wanted = {
+  "json",
+  "javascript",
+  "typescript",
+  "tsx",
+  "yaml",
+  "html",
+  "css",
+  "markdown",
+  "markdown_inline",
+  "bash",
+  "lua",
+  "vim",
+  "vimdoc",
+  "dockerfile",
+  "gitignore",
+  "query",
+  "c",
+  "cpp",
+  "python",
+}
+local to_install = vim.tbl_filter(function(p)
+  return not vim.tbl_contains(installed, p)
+end, wanted)
+if #to_install > 0 then
+  require("nvim-treesitter").install(to_install)
+end
+
+-- Enable highlighting + indentation for all filetypes
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function()
+    pcall(vim.treesitter.start)
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
 })
+
+-- Autotag and commentstring (standalone setup)
+require("nvim-ts-autotag").setup()
+require("ts_context_commentstring").setup({ enable_autocmd = false })
