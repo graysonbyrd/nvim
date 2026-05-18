@@ -48,3 +48,19 @@ vim.opt.background = "dark"
 vim.opt.termguicolors = true
 
 vim.cmd.colorscheme("tokyonight")
+
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = function()
+      return { vim.fn.getreg(""), vim.fn.getregtype("") }
+    end,
+    ["*"] = function()
+      return { vim.fn.getreg(""), vim.fn.getregtype("") }
+    end,
+  },
+}
