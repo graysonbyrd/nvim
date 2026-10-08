@@ -1,6 +1,8 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+vim.opt.autoread = true
+
 vim.cmd("let g:netrw_liststyle = 3")
 
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
@@ -49,18 +51,18 @@ vim.opt.termguicolors = true
 
 vim.cmd.colorscheme("tokyonight")
 
-vim.g.clipboard = {
-  name = "OSC 52",
-  copy = {
-    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-  },
-  paste = {
-    ["+"] = function()
-      return { vim.fn.getreg(""), vim.fn.getregtype("") }
-    end,
-    ["*"] = function()
-      return { vim.fn.getreg(""), vim.fn.getregtype("") }
-    end,
-  },
-}
+-- vim.g.clipboard = {
+--   name = "OSC 52",
+--   copy = {
+--     ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+--     ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+--   },
+--   paste = {
+--     ["+"] = function()
+--       return { vim.fn.getreg(""), vim.fn.getregtype("") }
+--     end,
+--     ["*"] = function()
+--       return { vim.fn.getreg(""), vim.fn.getregtype("") }
+--     end,
+--   },
+-- }
